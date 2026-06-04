@@ -158,6 +158,19 @@ app.get('/', (req, res) => {
 });
 
 // ------------------------------------------
+// Dummy Image Endpoint (For UDown Hijacking)
+// ------------------------------------------
+app.get('/dummy-image', (req, res) => {
+    // 1x1 transparent PNG buffer (safe, harmless image)
+    const imgBuffer = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', 'base64');
+    res.writeHead(200, {
+        'Content-Type': 'image/png',
+        'Content-Length': imgBuffer.length
+    });
+    res.end(imgBuffer);
+});
+
+// ------------------------------------------
 // Export Data Endpoint
 // ------------------------------------------
 app.get('/export', (req, res) => {
