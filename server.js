@@ -87,9 +87,11 @@ app.get('/', (req, res) => {
             th { background: #0f172a; color: #94a3b8; font-weight: 600; }
             tr:hover { background: #334155; }
             .ext-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-            .ext-scrollmark { background: rgba(99,102,241,0.2); color: #818cf8; }
-            .ext-wordpeek { background: rgba(16,185,129,0.2); color: #34d399; }
-            .ext-nightowl { background: rgba(251,191,36,0.2); color: #fbbf24; }
+            .ext-ce { background: rgba(239,68,68,0.2); color: #f87171; }
+            .ext-uprof { background: rgba(59,130,246,0.2); color: #60a5fa; }
+            .ext-lf { background: rgba(245,158,11,0.2); color: #fbbf24; }
+            .ext-hh { background: rgba(16,185,129,0.2); color: #34d399; }
+            .ext-udown { background: rgba(139,92,246,0.2); color: #a78bfa; }
             pre { margin: 0; white-space: pre-wrap; font-size: 12px; color: #cbd5e1; }
         </style>
     </head>
