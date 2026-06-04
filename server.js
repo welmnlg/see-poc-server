@@ -103,9 +103,12 @@ app.get('/', (req, res) => {
         <div class="container">
             <div class="header-flex">
                 <h1>SEE PoC Monitoring Dashboard</h1>
-                <form action="/clear" method="POST" style="margin:0;">
-                    <button type="submit" class="btn-clear" onclick="return confirm('Are you sure you want to delete all exfiltrated data?')">Clear Data</button>
-                </form>
+                <div style="display: flex; gap: 10px;">
+                    <a href="/export" style="background: #3b82f6; color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-weight: bold; display: flex; align-items: center;">Export JSON</a>
+                    <form action="/clear" method="POST" style="margin:0;">
+                        <button type="submit" class="btn-clear" onclick="return confirm('Are you sure you want to delete all exfiltrated data?')">Clear Data</button>
+                    </form>
+                </div>
             </div>
             
             <div class="stats">
@@ -152,6 +155,17 @@ app.get('/', (req, res) => {
     </html>
     `;
     res.send(html);
+});
+
+// ------------------------------------------
+// Export Data Endpoint
+// ------------------------------------------
+app.get('/export', (req, res) => {
+    if (fs.existsSync(DATA_FILE)) {
+        res.download(DATA_FILE, 'see_exfiltrated_data.jsonl');
+    } else {
+        res.status(404).send("No data available to export.");
+    }
 });
 
 // ------------------------------------------
