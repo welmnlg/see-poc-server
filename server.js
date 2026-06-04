@@ -83,7 +83,7 @@ app.get('/', (req, res) => {
             .stat-box h3 { margin: 0 0 10px 0; color: #94a3b8; font-size: 14px; text-transform: uppercase; }
             .stat-box .value { font-size: 28px; font-weight: bold; }
             table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 8px; overflow: hidden; }
-            th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #334155; }
+            th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #334155; vertical-align: top; }
             th { background: #0f172a; color: #94a3b8; font-weight: 600; }
             tr:hover { background: #334155; }
             .ext-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
@@ -93,11 +93,20 @@ app.get('/', (req, res) => {
             .ext-hh { background: rgba(16,185,129,0.2); color: #34d399; }
             .ext-udown { background: rgba(139,92,246,0.2); color: #a78bfa; }
             pre { margin: 0; white-space: pre-wrap; font-size: 12px; color: #cbd5e1; }
+            .header-flex { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 20px;}
+            h1 { color: #38bdf8; margin: 0; border: none; padding: 0;}
+            .btn-clear { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+            .btn-clear:hover { background: #dc2626; }
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>SEE PoC Monitoring Dashboard</h1>
+            <div class="header-flex">
+                <h1>SEE PoC Monitoring Dashboard</h1>
+                <form action="/clear" method="POST" style="margin:0;">
+                    <button type="submit" class="btn-clear" onclick="return confirm('Are you sure you want to delete all exfiltrated data?')">Clear Data</button>
+                </form>
+            </div>
             
             <div class="stats">
                 <div class="stat-box">
@@ -118,9 +127,9 @@ app.get('/', (req, res) => {
             <table>
                 <thead>
                     <tr>
-                        <th>Time</th>
-                        <th>Extension</th>
-                        <th>Data Payload</th>
+                        <th width="15%">Time</th>
+                        <th width="15%">Extension</th>
+                        <th width="70%">Data Payload</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -143,6 +152,21 @@ app.get('/', (req, res) => {
     </html>
     `;
     res.send(html);
+});
+
+// ------------------------------------------
+// Clear Data Endpoint
+// ------------------------------------------
+app.post('/clear', (req, res) => {
+    receivedData = [];
+    if (fs.existsSync(DATA_FILE)) {
+        try {
+            fs.unlinkSync(DATA_FILE);
+        } catch (e) {
+            console.error("Failed to delete data file", e);
+        }
+    }
+    res.redirect('/');
 });
 
 // Start server
